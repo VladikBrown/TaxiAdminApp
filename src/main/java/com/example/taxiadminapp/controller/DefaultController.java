@@ -40,12 +40,12 @@ public class DefaultController {
         return new ResponseEntity<>(ownerTypeRepository.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/avto_owner_types")
+    @GetMapping("/supports")
     public ResponseEntity<Iterable<Support>> getSupports() {
         return new ResponseEntity<>(supportRepository.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/avto_owner_types")
+    @GetMapping("/cars")
     public ResponseEntity<Iterable<Support>> getCars() {
         return new ResponseEntity<>(supportRepository.findAll(), HttpStatus.OK);
     }
