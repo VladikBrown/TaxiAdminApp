@@ -23,4 +23,7 @@ public class Driver {
     private Date leave_date;
     private Double ocenka; //rename
     private String mobile; //phone_number
+
+    @MappedCollection(idColumn = "id")
+    private Car avto;
 }

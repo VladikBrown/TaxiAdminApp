@@ -1,5 +1,6 @@
 package com.example.taxiadminapp.controller;
 
+import com.example.taxiadminapp.dto.DriverDto;
 import com.example.taxiadminapp.model.Car;
 import com.example.taxiadminapp.model.Driver;
 import com.example.taxiadminapp.repository.CarRepository;
@@ -9,9 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
-@RestController("/drivers")
+@RestController
+@RequestMapping("/drivers")
 public class DriverController {
 
     @Autowired
@@ -20,7 +23,7 @@ public class DriverController {
     @Autowired
     private CarRepository carRepository;
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<Iterable<Driver>> getDrivers() {
         var drivers = driverRepository.findAll();
         return new ResponseEntity<Iterable<Driver>>(drivers, HttpStatus.OK);
@@ -40,10 +43,24 @@ public class DriverController {
     }
 
     @PostMapping()
-    public ResponseEntity<Driver> createDriver(@RequestBody Driver driver) {
-        if (driver != null) {
-            var driverResponse= driverRepository.save(driver);
-            return new ResponseEntity<Driver>(driver, HttpStatus.CREATED);
+    public ResponseEntity<Driver> createDriver(@RequestBody DriverDto driverDto) {
+        if (driverDto != null) {
+            Car car = new Car();
+            car.setKlass(driverDto.getKlass());
+            car.setMark(driverDto.getMark());
+            car.setNumber(driverDto.getNumber());
+            var savedCar = carRepository.save(car);
+            Driver driver = new Driver();
+            driver.setAge(driverDto.getAge());
+            driver.setFirstname(driverDto.getFirstname());
+            driver.setSecondname(driverDto.getSecondname());
+            driver.setTherdname(driverDto.getTherdname());
+            driver.setHire_date(driverDto.getHire_date());
+            driver.setOcenka(driverDto.getOcenka());
+            driver.setMobile(driverDto.getMobile());
+            driver.setAvto_id(car.getId());
+            var savedDriver = driverRepository.save(driver);
+            return new ResponseEntity<Driver>(savedDriver, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<Driver>(HttpStatus.BAD_REQUEST);
         }

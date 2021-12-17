@@ -16,6 +16,6 @@ public class Car {
     private String klass; //....
     private String owner_type;
 
-//    @MappedCollection(keyColumn = "avto_id", idColumn = "avto_id")
-//    private Set<Driver> drivers;
+    @MappedCollection(idColumn = "klass")
+    private CarClass avto_klass;
 }
